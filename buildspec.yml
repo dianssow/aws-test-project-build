@@ -2,34 +2,38 @@ version: 0.2
 
 env:
   variables:
-    PYTHON_ENV: "production"
+    PYTHON_ENV: "test"
 
 phases:
   install:
     runtime-versions:
-      python: 3.12.10
+      python: 3.12
     commands:
-      - echo  Installing dependencies
+      - echo Installing dependencies
       - pip install -r requirements.txt
-  
+
   pre_build:
     commands:
-      - echo start prebuild phase
-  
+      - echo Start prebuild phase
+
   build:
     commands:
-      - echo Runing unit  tests with pytest 
-      - pytest --junitxml=reports/test-results.xml  --tb=short
-  
+      - echo Running unit tests with pytest
+      - pytest --junitxml=reports/test-results.xml --tb=short
+
   post_build:
     commands:
-      - echo Build completed successfully `date`
+      - 'if [ "$CODEBUILD_BUILD_SUCCEEDING" = "1" ]; then echo "Build OK"; else echo "Build en echec"; fi'
+      - echo Finished at $(date)
+
+reports:
+  pytest_reports:
+    files:
+      - "test-results.xml"
+    base-directory: reports
+    file-format: JUNITXML
 
 artifacts:
   files:
-    '**/*'
-    base-directory: .
-    pytest_reports:
-    files:
-       "reports/test-results.xml"
-  discard-paths: yes
+    - '**/*'
+  base-directory: .
