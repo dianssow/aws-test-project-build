@@ -27,9 +27,9 @@ phases:
 
 artifacts:
   files:
-    - '**/*'
+    '**/*'
     base-directory: .
     pytest_reports:
     files:
-      - "reports/test-results.xml"
+       "reports/test-results.xml"
   discard-paths: yes
