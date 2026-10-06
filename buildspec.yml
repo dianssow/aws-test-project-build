@@ -1,0 +1,35 @@
+version: 0.2
+
+env:
+  variables:
+    PYTHON_ENV: "production"
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.12.10
+    commands:
+      - echo  Installing dependencies
+      - pip install -r requirements.txt
+  
+  pre_build:
+    commands:
+      - echo start prebuild phase
+  
+  build:
+    commands:
+      - echo Runing unit  tests with pytest 
+      - pytest --junitxml=reports/test-results.xml  --tb=short
+  
+  post_build:
+    commands:
+      - echo Build completed successfully `date`
+
+artifacts:
+  files:
+    - '**/*'
+    base-directory: .
+    pytest_reports:
+    files:
+      - "reports/test-results.xml"
+  discard-paths: yes
