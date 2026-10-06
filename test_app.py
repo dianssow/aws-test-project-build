@@ -6,5 +6,5 @@ class TestApp(unittest.TestCase):
         self.assertEqual(say_hello("AWS"),"hello, AWS")
 
 
-        if__name:: == "__main__":
+        if__name__ == "__main__":
             unittest.main()
